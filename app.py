@@ -49,14 +49,30 @@ st.subheader(f"GDP Summary ({start_year}–{end_year})")
 st.metric("Highest GDP", f"${filtered_data['GDP'].max():,.0f}")
 st.metric("Lowest GDP", f"${filtered_data['GDP'].min():,.0f}")
 
-# Line chart
-st.subheader("📈 GDP Over Time")
-fig, ax = plt.subplots()
-ax.plot(filtered_data['Year'], filtered_data['GDP'], color='teal', marker='o')
-ax.set_xlabel("Year")
-ax.set_ylabel("GDP (US$)")
-ax.set_title("Sri Lanka's GDP (Current US$)")
-plt.xticks(rotation=45)
+# Line chart with improved aesthetics
+st.subheader("📈 Sri Lanka's GDP Over Time")
+
+fig, ax = plt.subplots(figsize=(10, 5))  # Wider figure
+
+# Plot the GDP with style
+ax.plot(filtered_data['Year'], filtered_data['GDP'], color='teal', marker='o', linestyle='-', linewidth=2, markersize=5)
+
+# Improve x-axis readability
+ax.set_xticks(filtered_data['Year'][::5])  # Show every 5th year
+ax.tick_params(axis='x', rotation=45)
+
+# Titles and labels
+ax.set_title("Sri Lanka's GDP (Current US$)", fontsize=14, weight='bold')
+ax.set_xlabel("Year", fontsize=12)
+ax.set_ylabel("GDP (US$)", fontsize=12)
+
+# Add grid
+ax.grid(True, which='major', linestyle='--', alpha=0.6)
+
+# Format y-axis for billions
+import matplotlib.ticker as ticker
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'${x*1e-9:.0f}B'))
+
 st.pyplot(fig)
 
 # Show data table
