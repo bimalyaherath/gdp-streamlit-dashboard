@@ -11,7 +11,10 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.markdown("This dashboard explores the GDP (current US$) of Sri Lanka using World Bank data.")
+st.markdown(
+    "<p style='text-align: center;'>This dashboard explores the GDP (current US$) of Sri Lanka using World Bank data.</p>",
+    unsafe_allow_html=True
+)
 
 # Load and clean data
 @st.cache_data
