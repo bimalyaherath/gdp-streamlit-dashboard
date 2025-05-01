@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 
 # Page title
 st.set_page_config(page_title="Sri Lanka GDP Dashboard", layout="centered")
-st.title("📊 Sri Lanka GDP Analysis (1960–2023)")
+st.markdown(
+    "<h1 style='text-align: center;'>📊 Sri Lanka GDP Analysis (1960–2023)</h1>",
+    unsafe_allow_html=True
+)
 st.markdown("This dashboard explores the GDP (current US$) of Sri Lanka using World Bank data.")
 
 # Load and clean data
