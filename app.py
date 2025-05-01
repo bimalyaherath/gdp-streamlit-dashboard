@@ -10,15 +10,26 @@ st.markdown("This dashboard explores the GDP (current US$) of Sri Lanka using Wo
 # Load and clean data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("GDP (current US$)_SL - 1960–2023.csv", header=None)
-    df = df.T
-    df.columns = df.iloc[0]
-    df = df[1:]
-    df = df.reset_index()
-    df.columns = ['Year', 'GDP']
-    df['Year'] = df['Year'].astype(str)
-    df['GDP'] = df['GDP'].astype(float)
-    return df
+    # Skip the metadata rows and read from the 5th row (0-indexed → header=4)
+    df = pd.read_csv("GDP (current US$)_SL - 1960–2023.csv", header=4)
+    
+    # Extract only the year columns (from 1960 onward)
+    year_columns = df.columns[4:]  # Skip Country Name, Country Code, Indicator, Indicator Code
+
+    # Select Sri Lanka row only (if other countries are present)
+    sri_lanka = df[df['Country Name'] == 'Sri Lanka']
+
+    # Convert wide data to long format
+    long_df = sri_lanka.melt(
+        id_vars=['Country Name'],
+        value_vars=year_columns,
+        var_name='Year',
+        value_name='GDP'
+    )
+
+    long_df['Year'] = long_df['Year'].astype(str)
+    long_df['GDP'] = long_df['GDP'].astype(float)
+    return long_df
 
 data = load_data()
 
